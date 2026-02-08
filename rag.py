@@ -1,11 +1,11 @@
 import os
 from dotenv import load_dotenv
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PDFPlumberLoader 
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_xai import ChatXAI
-from langchain.chains import RetrievalQA
+from langchain_xai import ChatXAI  
+from langchain_classic.chains import RetrievalQA  
 
 # 1. Load Environment Variables
 load_dotenv()
