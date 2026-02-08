@@ -7,17 +7,20 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_classic.chains import RetrievalQA
 from langchain.retrievers import ContextualCompressionRetriever
-from langchain.retrievers.document_compressors import FlashrankRerank
+from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
+
+# Import the updated prompt from your new file
 from prompt import VERDICT_PROMPT 
 
 load_dotenv()
 
 class VerdictRAG:
     def __init__(self):
+        # Using absolute paths for robustness
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.pdf_path = os.path.join(base_dir, "Doc", "Ghana Constitution.pdf")
         
-        # This initializes the Bi-Encoder for vector space creation
+        # Initializes the Vector Space Embeddings
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
         
         self.llm = ChatGroq(
@@ -31,20 +34,21 @@ class VerdictRAG:
         loader = PDFPlumberLoader(self.pdf_path)
         docs = loader.load()
         
-        # Better splitting for legal documents
+        # TECHNIQUE: Recursive splitting preserves Article headings
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000, chunk_overlap=150,
+            chunk_size=1000, 
+            chunk_overlap=200,
             separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
         )
         chunks = text_splitter.split_documents(docs)
         
-        # Build the initial Vector Space
+        # Build Vector Space
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
         
-        # STAGE 1: Broad Retrieval (Grab top 20 potential chunks)
+        # STAGE 1: Broad Retrieval (Top 20)
         base_retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
         
-        # STAGE 2: Re-ranking (Filter down to the top 3 best chunks)
+        # STAGE 2: Re-ranking (Top 3) - Fixes Article vs Chapter confusion
         compressor = FlashrankRerank(top_n=3)
         compression_retriever = ContextualCompressionRetriever(
             base_compressor=compressor, 
