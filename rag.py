@@ -45,7 +45,7 @@ def run_rag_pipeline(pdf_path, user_query):
 
 # Example Usage
 if __name__ == "__main__":
-    pdf = "Ghana Constitution.pdf"
+    pdf = r"C:\Users\LUCAS\Documents\Project Repository\Verdict (v2)\Doc\Ghana Constitution.pdf"
     query = "What does the constitution say about the freedom of the media?"
     
     answer = run_rag_pipeline(pdf, query)
