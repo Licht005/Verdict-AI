@@ -1,16 +1,20 @@
+# Core RAG Logic
 langchain
-langchain-openai
+langchain-groq
 langchain-community
 langchain-huggingface
-langchain-experimental
+langchain-text-splitters
 langchain-classic
-langchain-groq
+langchain-core
+
+# Document & Vector Processing
 pdfplumber
 faiss-cpu
-python-dotenv
 sentence-transformers
-streamlit
-numpy
-tqdm
+flashrank
+
+# API & Environment
 fastapi
 uvicorn
+python-dotenv
+numpy
