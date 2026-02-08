@@ -3,7 +3,7 @@ langchain-openai
 langchain-community
 langchain-huggingface
 langchain-experimental
-langchain-xai
+langchain-classic
 pdfplumber
 faiss-cpu
 python-dotenv
