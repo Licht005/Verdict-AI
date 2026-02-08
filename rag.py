@@ -12,7 +12,7 @@ load_dotenv()
 
 def run_verdict_rag():
     # 2. Load PDF
-    loader = PDFPlumberLoader("/Doc/Ghana Constitution.pdf")
+    loader = PDFPlumberLoader("Doc/Ghana Constitution.pdf")
     docs = loader.load()
 
     # 3. Local Embeddings
@@ -41,7 +41,7 @@ def run_verdict_rag():
 
     # 8. Run
     query = "What does the constitution say about the freedom of the media?"
-    print(f"\nVerdict Assistant: {qa.invoke(query)['result']}")
+    print(f"\nVerdict AI: {qa.invoke(query)['result']}")
 
 if __name__ == "__main__":
     run_verdict_rag()
