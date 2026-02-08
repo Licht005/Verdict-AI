@@ -5,14 +5,14 @@ from langchain_community.document_loaders import PDFPlumberLoader
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain.chains import RetrievalQA
+from langchain_classic.chains import RetrievalQA
 
 # 1. Load Environment Variables
 load_dotenv()
 
 def run_verdict_rag():
     # 2. Load PDF
-    loader = PDFPlumberLoader("Ghana Constitution.pdf")
+    loader = PDFPlumberLoader("/Doc/Ghana Constitution.pdf")
     docs = loader.load()
 
     # 3. Local Embeddings
