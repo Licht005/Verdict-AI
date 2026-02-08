@@ -12,7 +12,7 @@ load_dotenv()
 
 def run_rag_pipeline(pdf_path, user_query):
     # 2. Load the PDF
-    loader = PyPDFLoader(pdf_path)
+    loader = PDFPlumberLoader(pdf_path)
     documents = loader.load()
 
     # 3. Semantic Chunking
