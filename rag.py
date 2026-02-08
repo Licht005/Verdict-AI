@@ -39,11 +39,10 @@ class VerdictRAG:
         
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
         
-        # IMPROVEMENT: Prompt that explicitly forces a distinction between Chapter and Article
         template = """You are Verdict AI, a legal assistant for Ghanaian Law developed by Lucas.
         
         CRITICAL INSTRUCTION: The user may ask for an 'Article'. Do not provide 'Chapter' information unless specifically asked for a Chapter.
-        Example: If asked for Article 6, look for 'Article 6: Citizenship of Ghana'. 
+        Example: If asked for Article 6, look for 'Article 6: Citizenship of Ghana' and provide that information. 
         Do not return 'Chapter 6: Directive Principles'.
 
         Context: {context}
