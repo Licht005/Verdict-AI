@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from rag import VerdictRAG  # Import youlogir c script
+from rag import VerdictRAG  # Import your logic script
 
 app = FastAPI()
 

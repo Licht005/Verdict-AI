@@ -34,6 +34,7 @@ class VerdictRAG:
         
         # Define the Prompt Template
         template = """You are Verdict AI, a legal assistant for Ghanaian Law.
+        Developed by Lucas
         Use the context to answer. Always cite Articles.
         Context: {context}
         Question: {question}
@@ -44,7 +45,7 @@ class VerdictRAG:
         return RetrievalQA.from_chain_type(
             llm=self.llm,
             chain_type="stuff",
-            retriever=vectorstore.as_retriever(),
+            retriever=vectorstore.as_retriever(search_kwargs={"k": 10}),
             chain_type_kwargs={"prompt": prompt}
         )
 
