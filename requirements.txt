@@ -4,7 +4,7 @@ langchain-community
 langchain-huggingface
 langchain-experimental
 langchain-classic
-langchain-xai
+langchain-groq
 pdfplumber
 faiss-cpu
 python-dotenv
