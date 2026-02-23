@@ -32,7 +32,7 @@ class VerdictRAG:
         self.qa_chain = self._setup_chain()
 
     def _build_vectorstore(self):
-        # Cache FAISS index to avoid rebuilding on every startup
+        # Cache FAISS index to avoid rebuilding on every startup.
         if os.path.exists(FAISS_INDEX_PATH):
             return FAISS.load_local(FAISS_INDEX_PATH, self.embeddings, allow_dangerous_deserialization=True)
         
