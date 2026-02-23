@@ -5,56 +5,56 @@ from langchain_community.document_loaders import PDFPlumberLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_classic.chains import RetrievalQA
+from langchain.chains import RetrievalQA
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
-
-# Import the updated prompt from your new file
-from prompt import VERDICT_PROMPT 
+from prompt import VERDICT_PROMPT
 
 load_dotenv()
 
+FAISS_INDEX_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "faiss_index")
+
 class VerdictRAG:
     def __init__(self):
-        # Using absolute paths for robustness
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.pdf_path = os.path.join(base_dir, "Doc", "Ghana Constitution.pdf")
         
-        # Initializes the Vector Space Embeddings
+        api_key = os.getenv("GROQ_API_KEY")
+        if not api_key:
+            raise ValueError("GROQ_API_KEY not set in environment")
+
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        
         self.llm = ChatGroq(
-            groq_api_key=os.getenv("GROQ_API_KEY"),
+            groq_api_key=api_key,
             model_name="llama-3.3-70b-versatile",
             temperature=0
         )
         self.qa_chain = self._setup_chain()
 
-    def _setup_chain(self):
+    def _build_vectorstore(self):
+        # Cache FAISS index to avoid rebuilding on every startup
+        if os.path.exists(FAISS_INDEX_PATH):
+            return FAISS.load_local(FAISS_INDEX_PATH, self.embeddings, allow_dangerous_deserialization=True)
+        
         loader = PDFPlumberLoader(self.pdf_path)
         docs = loader.load()
-        
-        # TECHNIQUE: Recursive splitting preserves Article headings
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000, 
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
             chunk_overlap=200,
             separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
         )
-        chunks = text_splitter.split_documents(docs)
-        
-        # Build Vector Space
+        chunks = splitter.split_documents(docs)
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
-        
-        # STAGE 1: Broad Retrieval (Top 20)
+        vectorstore.save_local(FAISS_INDEX_PATH)
+        return vectorstore
+
+    def _setup_chain(self):
+        vectorstore = self._build_vectorstore()
         base_retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
-        
-        # STAGE 2: Re-ranking (Top 3) - Fixes Article vs Chapter confusion
-        compressor = FlashrankRerank(top_n=3)
         compression_retriever = ContextualCompressionRetriever(
-            base_compressor=compressor, 
+            base_compressor=FlashrankRerank(top_n=3),
             base_retriever=base_retriever
         )
-        
         return RetrievalQA.from_chain_type(
             llm=self.llm,
             chain_type="stuff",
@@ -62,6 +62,6 @@ class VerdictRAG:
             chain_type_kwargs={"prompt": VERDICT_PROMPT}
         )
 
-    def ask(self, query: str):
+    def ask(self, query: str) -> str:
         response = self.qa_chain.invoke(query)
         return response["result"]

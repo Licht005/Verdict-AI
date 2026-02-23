@@ -1,12 +1,19 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from rag import VerdictRAG  # Import your logic script
+from rag import VerdictRAG
 
-app = FastAPI()
+rag_system: VerdictRAG = None
 
-# Initialize the RAG system globally so it loads once
-print("Initializing Verdict RAG system...")
-rag_system = VerdictRAG()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global rag_system
+    print("Initializing Verdict RAG system...")
+    rag_system = VerdictRAG()
+    print("Ready.")
+    yield
+
+app = FastAPI(title="Verdict AI", lifespan=lifespan)
 
 class QueryRequest(BaseModel):
     question: str
