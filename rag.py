@@ -46,7 +46,7 @@ class VerdictRAG:
         chunks = splitter.split_documents(docs)
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
         vectorstore.save_local(FAISS_INDEX_PATH)
-        return vectorstore  # ✅ this was missing
+        return vectorstore  
 
     def _setup_chain(self):
         vectorstore = self._build_vectorstore()
