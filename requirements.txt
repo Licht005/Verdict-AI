@@ -7,9 +7,8 @@ langchain-core==0.3.51
 
 # Document & Vector Processing
 pdfplumber==0.11.4
-faiss-cpu
+faiss-cpu==1.9.0
 sentence-transformers==3.4.1
-flashrank==0.2.10
 
 # API & Environment
 fastapi==0.115.11
