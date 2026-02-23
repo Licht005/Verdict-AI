@@ -7,22 +7,22 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg:           #f4f2ee;
-    --surface:      #ffffff;
-    --surface-2:    #eeece8;
-    --border:       #d8d4cc;
-    --border-light: #e8e4de;
-    --text:         #1a1814;
-    --text-2:       #5a5650;
-    --text-3:       #9a9590;
-    --accent:       #1a3a5c;
-    --accent-2:     #2d5f8a;
-    --gold:         #8a6f2e;
-    --gold-light:   #c9a84c;
-    --red:          #8b2020;
-    --green:        #1a5c35;
-    --shadow:       0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
-    --shadow-lg:    0 4px 24px rgba(0,0,0,0.10);
+    --bg:           #0e0f11;
+    --surface:      #16181c;
+    --surface-2:    #1e2026;
+    --surface-3:    #252830;
+    --border:       #2a2d35;
+    --border-light: #22252d;
+    --text:         #e2e4e9;
+    --text-2:       #8b8f9a;
+    --text-3:       #4e5260;
+    --accent:       #4a7fa5;
+    --accent-dim:   #2d5070;
+    --gold:         #c9a84c;
+    --gold-dim:     #7a6030;
+    --red:          #c0392b;
+    --green:        #27ae60;
+    --shadow:       0 1px 4px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.3);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,13 +38,13 @@
 
   /* ── Top bar ── */
   .topbar {
-    background: var(--accent);
-    color: #fff;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 32px;
-    height: 56px;
+    height: 54px;
     flex-shrink: 0;
   }
 
@@ -55,37 +55,36 @@
   }
 
   .topbar-seal {
-    width: 30px;
-    height: 30px;
-    border: 1.5px solid rgba(255,255,255,0.35);
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--accent-dim);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 13px;
+    color: var(--accent);
   }
 
   .topbar-name {
     font-family: 'IBM Plex Serif', serif;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
-    letter-spacing: 0.01em;
-    color: #fff;
+    color: var(--text);
   }
 
   .topbar-name span {
     font-weight: 400;
     font-style: italic;
-    opacity: 0.75;
-    font-size: 15px;
-    margin-left: 4px;
+    color: var(--accent);
+    margin-left: 2px;
   }
 
   .topbar-meta {
     font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    opacity: 0.5;
+    color: var(--text-3);
     font-family: 'IBM Plex Mono', monospace;
   }
 
@@ -96,28 +95,26 @@
     max-width: 1100px;
     width: 100%;
     margin: 0 auto;
-    padding: 32px 24px;
-    gap: 24px;
+    padding: 28px 24px;
+    gap: 20px;
   }
 
   /* ── Sidebar ── */
   .sidebar {
-    width: 220px;
+    width: 210px;
     flex-shrink: 0;
   }
 
-  .sidebar-section {
-    margin-bottom: 28px;
-  }
+  .sidebar-section { margin-bottom: 24px; }
 
   .sidebar-label {
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text-3);
     font-family: 'IBM Plex Mono', monospace;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .mode-btn {
@@ -125,9 +122,9 @@
     align-items: center;
     gap: 10px;
     width: 100%;
-    padding: 10px 12px;
+    padding: 9px 11px;
     border: 1px solid transparent;
-    border-radius: 4px;
+    border-radius: 5px;
     background: transparent;
     color: var(--text-2);
     font-family: 'IBM Plex Sans', sans-serif;
@@ -139,52 +136,48 @@
     margin-bottom: 2px;
   }
 
-  .mode-btn:hover {
+  .mode-btn:hover { background: var(--surface-2); color: var(--text); }
+
+  .mode-btn.active {
     background: var(--surface-2);
+    border-color: var(--border);
     color: var(--text);
   }
 
-  .mode-btn.active {
-    background: var(--surface);
-    border-color: var(--border);
-    color: var(--accent);
-    box-shadow: var(--shadow);
-  }
-
-  .mode-btn .btn-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+  .btn-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    background: var(--surface-2);
+    font-size: 13px;
+    background: var(--surface-3);
     flex-shrink: 0;
   }
 
   .mode-btn.active .btn-icon {
-    background: var(--accent);
-    color: #fff;
+    background: var(--accent-dim);
+    color: var(--accent);
   }
 
   .sidebar-divider {
     height: 1px;
-    background: var(--border-light);
-    margin: 20px 0;
+    background: var(--border);
+    margin: 18px 0;
   }
 
   .sidebar-info {
     font-size: 11px;
     color: var(--text-3);
-    line-height: 1.7;
+    line-height: 1.8;
     font-family: 'IBM Plex Mono', monospace;
   }
 
   .status-dot {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--green);
     margin-right: 6px;
@@ -205,16 +198,17 @@
   }
 
   .panel-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--border-light);
+    padding: 18px 22px 16px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    background: var(--surface-2);
   }
 
   .panel-title {
     font-family: 'IBM Plex Serif', serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--text);
     line-height: 1.3;
@@ -222,7 +216,7 @@
 
   .panel-title span {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     font-family: 'IBM Plex Mono', monospace;
     font-weight: 400;
     color: var(--text-3);
@@ -236,8 +230,8 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--gold);
-    background: #f8f3e8;
-    border: 1px solid #e8d8a8;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dim);
     padding: 4px 10px;
     border-radius: 3px;
     white-space: nowrap;
@@ -247,82 +241,84 @@
   .messages {
     flex: 1;
     overflow-y: auto;
-    padding: 24px;
+    padding: 20px 22px;
     display: flex;
     flex-direction: column;
     gap: 0;
   }
 
-  .messages::-webkit-scrollbar { width: 4px; }
+  .messages::-webkit-scrollbar { width: 3px; }
   .messages::-webkit-scrollbar-track { background: transparent; }
   .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   .message {
     display: flex;
-    gap: 14px;
-    padding: 16px 0;
+    gap: 13px;
+    padding: 14px 0;
     border-bottom: 1px solid var(--border-light);
-    animation: fadeIn 0.25s ease;
+    animation: fadeIn 0.2s ease;
   }
 
   .message:last-child { border-bottom: none; }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(5px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   .msg-avatar {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 10px;
+    font-weight: 600;
     flex-shrink: 0;
     margin-top: 2px;
     font-family: 'IBM Plex Mono', monospace;
-    font-weight: 500;
+    letter-spacing: 0.05em;
   }
 
   .message.user .msg-avatar {
-    background: var(--accent);
-    color: #fff;
-    font-size: 11px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(74,127,165,0.2);
   }
 
   .message.assistant .msg-avatar {
-    background: #f0f4f8;
+    background: var(--surface-3);
+    color: var(--gold);
     border: 1px solid var(--border);
-    color: var(--accent);
-    font-size: 11px;
   }
 
   .msg-body { flex: 1; min-width: 0; }
 
   .msg-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-3);
     font-family: 'IBM Plex Mono', monospace;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
 
-  .message.user .msg-label { color: var(--accent-2); }
+  .message.user .msg-label { color: var(--accent); opacity: 0.7; }
+  .message.assistant .msg-label { color: var(--gold); opacity: 0.7; }
 
   .msg-text {
     font-size: 14px;
-    line-height: 1.75;
+    line-height: 1.8;
     color: var(--text);
     font-weight: 300;
   }
 
   .message.assistant .msg-text {
     font-family: 'IBM Plex Serif', serif;
-    font-size: 14.5px;
+    font-size: 14px;
+    color: #d0d4dc;
   }
 
   /* ── Empty state ── */
@@ -332,32 +328,33 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 48px 32px;
     text-align: center;
-    color: var(--text-3);
   }
 
   .empty-icon {
-    font-size: 36px;
+    font-size: 32px;
     margin-bottom: 16px;
-    opacity: 0.4;
+    opacity: 0.25;
   }
 
   .empty-title {
     font-family: 'IBM Plex Serif', serif;
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text-2);
     margin-bottom: 8px;
     font-weight: 400;
   }
 
   .empty-sub {
-    font-size: 13px;
-    line-height: 1.6;
-    max-width: 320px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-3);
+    max-width: 300px;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
-  .suggestion-chips {
+  .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -366,28 +363,28 @@
   }
 
   .chip {
-    padding: 6px 14px;
+    padding: 5px 13px;
     border: 1px solid var(--border);
     border-radius: 3px;
-    font-size: 12px;
-    color: var(--text-2);
+    font-size: 11px;
+    color: var(--text-3);
     cursor: pointer;
     transition: all 0.15s;
-    background: var(--surface);
+    background: var(--surface-2);
     font-family: 'IBM Plex Mono', monospace;
   }
 
   .chip:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-dim);
     color: var(--accent);
-    background: #f0f4f8;
+    background: rgba(74,127,165,0.07);
   }
 
-  /* ── Input area ── */
+  /* ── Input ── */
   .input-area {
-    border-top: 1px solid var(--border-light);
-    padding: 16px 24px;
-    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 14px 22px;
+    background: var(--surface-2);
   }
 
   .text-row {
@@ -403,116 +400,71 @@
     border-radius: 4px;
     color: var(--text);
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 300;
-    padding: 12px 14px;
+    padding: 11px 14px;
     resize: none;
-    min-height: 46px;
+    min-height: 44px;
     max-height: 160px;
     outline: none;
     transition: border-color 0.15s;
     line-height: 1.6;
   }
 
-  textarea:focus { border-color: var(--accent); }
+  textarea:focus { border-color: var(--accent-dim); }
   textarea::placeholder { color: var(--text-3); }
 
   .send-btn {
-    height: 46px;
-    padding: 0 20px;
-    background: var(--accent);
-    color: #fff;
-    border: none;
+    height: 44px;
+    padding: 0 18px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(74,127,165,0.25);
     border-radius: 4px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 13px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: all 0.15s;
     white-space: nowrap;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
   }
 
-  .send-btn:hover { background: var(--accent-2); }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .send-btn:hover {
+    background: rgba(74,127,165,0.25);
+    color: #7ab8e0;
+    border-color: var(--accent);
+  }
+
+  .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
   /* ── Voice panel ── */
-  .voice-panel {
+  .voice-body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 24px;
-    gap: 32px;
+    overflow: hidden;
   }
 
-  .voice-ring {
-    position: relative;
-    width: 120px;
-    height: 120px;
+  .voice-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 22px;
   }
 
-  .voice-btn {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1.5px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
+  .voice-messages::-webkit-scrollbar { width: 3px; }
+  .voice-messages::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .voice-controls {
+    border-top: 1px solid var(--border);
+    padding: 28px 22px;
+    background: var(--surface-2);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    transition: all 0.2s;
-    box-shadow: var(--shadow-lg);
+    gap: 20px;
   }
 
-  .voice-btn:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(26,58,92,0.08), var(--shadow-lg);
-  }
-
-  .voice-btn.recording {
-    border-color: var(--red);
-    background: #fff8f8;
-    animation: recordPulse 2s infinite;
-  }
-
-  .voice-btn.processing {
-    border-color: var(--gold-light);
-    background: #fffdf5;
-  }
-
-  .voice-btn.playing {
-    border-color: var(--green);
-    background: #f5fdf8;
-  }
-
-  @keyframes recordPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(139,32,32,0.15), var(--shadow-lg); }
-    50%       { box-shadow: 0 0 0 12px rgba(139,32,32,0), var(--shadow-lg); }
-  }
-
-  .voice-indicator {
-    text-align: center;
-  }
-
-  .voice-status-text {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-2);
-    letter-spacing: 0.03em;
-    margin-bottom: 4px;
-  }
-
-  .voice-hint {
-    font-size: 11px;
-    color: var(--text-3);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  /* Waveform */
   .waveform {
     display: flex;
     align-items: center;
@@ -546,23 +498,85 @@
     50%       { height: 18px; }
   }
 
+  .voice-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .voice-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface-3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+  }
+
+  .voice-btn:hover {
+    border-color: var(--accent-dim);
+    background: rgba(74,127,165,0.1);
+  }
+
+  .voice-btn.recording {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.1);
+    animation: recordPulse 2s infinite;
+  }
+
+  .voice-btn.processing {
+    border-color: var(--gold-dim);
+    background: rgba(201,168,76,0.07);
+  }
+
+  .voice-btn.playing {
+    border-color: var(--green);
+    background: rgba(39,174,96,0.07);
+  }
+
+  @keyframes recordPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.2), var(--shadow); }
+    50%       { box-shadow: 0 0 0 10px rgba(192,57,43,0), var(--shadow); }
+  }
+
+  .voice-info { text-align: left; }
+
+  .voice-status {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .voice-hint {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
   /* ── Thinking ── */
   .thinking {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 16px 0;
+    gap: 8px;
+    padding: 14px 0;
     color: var(--text-3);
-    font-size: 12px;
+    font-size: 11px;
     font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     border-bottom: 1px solid var(--border-light);
   }
 
   .dot {
-    width: 3px;
-    height: 3px;
-    background: var(--gold-light);
+    width: 3px; height: 3px;
+    background: var(--gold-dim);
     border-radius: 50%;
     animation: blink 1.2s infinite;
   }
@@ -570,29 +584,27 @@
   .dot:nth-child(3) { animation-delay: 0.4s; }
 
   @keyframes blink {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50%       { opacity: 1;   transform: scale(1.4); }
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 1; }
   }
 
   /* ── Error ── */
   .error-msg {
-    padding: 10px 14px;
-    background: #fdf5f5;
-    border: 1px solid #e8c0c0;
+    padding: 9px 13px;
+    background: rgba(192,57,43,0.08);
+    border: 1px solid rgba(192,57,43,0.25);
     border-radius: 4px;
-    font-size: 13px;
-    color: var(--red);
+    font-size: 12px;
+    color: #e07060;
     margin-top: 8px;
     font-family: 'IBM Plex Mono', monospace;
   }
 
-  /* ── Utility ── */
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- Top bar -->
 <div class="topbar">
   <div class="topbar-brand">
     <div class="topbar-seal">⚖</div>
@@ -601,20 +613,16 @@
   <div class="topbar-meta">Ghana Constitutional Law · Research Assistant</div>
 </div>
 
-<!-- Layout -->
 <div class="layout">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Interface</div>
       <button class="mode-btn active" id="textModeBtn" onclick="setMode('text')">
-        <div class="btn-icon">⌨</div>
-        Text Query
+        <div class="btn-icon">⌨</div> Text Query
       </button>
       <button class="mode-btn" id="voiceModeBtn" onclick="setMode('voice')">
-        <div class="btn-icon">🎙</div>
-        Voice Query
+        <div class="btn-icon">🎙</div> Voice Query
       </button>
     </div>
 
@@ -624,10 +632,10 @@
       <div class="sidebar-label">System</div>
       <div class="sidebar-info">
         <div><span class="status-dot"></span>RAG Online</div>
-        <div style="margin-top:6px;">Model: LLaMA 3.3 70B</div>
-        <div style="margin-top:4px;">STT: Whisper v3</div>
-        <div style="margin-top:4px;">TTS: ElevenLabs</div>
-        <div style="margin-top:4px;">Source: GH Constitution</div>
+        <div>Model: LLaMA 3.3 70B</div>
+        <div>STT: Whisper v3</div>
+        <div>TTS: ElevenLabs</div>
+        <div>Source: GH Constitution</div>
       </div>
     </div>
 
@@ -639,7 +647,6 @@
     </div>
   </div>
 
-  <!-- Panel -->
   <div class="panel">
     <div class="panel-header">
       <div class="panel-title">
@@ -655,26 +662,25 @@
         <div class="empty-state" id="emptyState">
           <div class="empty-icon">📜</div>
           <div class="empty-title">Ask about Ghana's Constitution</div>
-          <div class="empty-sub">Query any article, right, chapter, or provision. Verdict AI will find and cite the exact clause.</div>
-          <div class="suggestion-chips">
-            <div class="chip" onclick="fillQuestion('What does Article 6 say?')">Article 6</div>
-            <div class="chip" onclick="fillQuestion('What are the fundamental human rights?')">Human Rights</div>
-            <div class="chip" onclick="fillQuestion('What does Article 35 say about the state?')">Article 35</div>
-            <div class="chip" onclick="fillQuestion('What is the role of Parliament?')">Parliament</div>
+          <div class="empty-sub">Query any article, right, chapter or provision. Verdict AI cites the exact clause.</div>
+          <div class="chips">
+            <div class="chip" onclick="fill('What does Article 6 say?')">Article 6</div>
+            <div class="chip" onclick="fill('What are the fundamental human rights?')">Human Rights</div>
+            <div class="chip" onclick="fill('What does Article 35 say?')">Article 35</div>
+            <div class="chip" onclick="fill('What is the role of Parliament?')">Parliament</div>
+            <div class="chip" onclick="fill('What does the Constitution say about freedom of speech?')">Free Speech</div>
           </div>
         </div>
       </div>
 
       <div class="input-area">
         <div class="text-row">
-          <textarea
-            id="questionInput"
-            placeholder="Ask about any article, right, or provision…"
+          <textarea id="questionInput"
+            placeholder="Ask about any article, right, or constitutional provision…"
             rows="1"
             onkeydown="handleKey(event)"
-            oninput="autoResize(this)"
-          ></textarea>
-          <button class="send-btn" id="sendBtn" onclick="sendText()">Submit</button>
+            oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendText()">Submit →</button>
         </div>
         <div id="textError"></div>
       </div>
@@ -682,28 +688,26 @@
 
     <!-- VOICE MODE -->
     <div id="voiceMode" class="hidden">
-      <div class="messages" id="voiceMessages"></div>
+      <div class="voice-body">
+        <div class="voice-messages" id="voiceMessages"></div>
 
-      <div class="input-area">
-        <div class="voice-panel">
+        <div class="input-area">
           <div class="waveform" id="waveform">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
           </div>
-
-          <div class="voice-ring">
+          <div class="voice-row">
             <div class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
               <span id="orbIcon">🎙</span>
             </div>
+            <div class="voice-info">
+              <div class="voice-status" id="voiceStatus">Press to speak</div>
+              <div class="voice-hint" id="voiceHint">Tap to begin recording</div>
+            </div>
           </div>
-
-          <div class="voice-indicator">
-            <div class="voice-status-text" id="voiceStatus">Press to speak</div>
-            <div class="voice-hint" id="voiceHint">Hold to record · Release or tap to stop</div>
-          </div>
+          <div id="voiceError"></div>
         </div>
-        <div id="voiceError"></div>
       </div>
     </div>
 
@@ -718,7 +722,6 @@ let audioChunks = [];
 let isRecording = false;
 let currentAudio = null;
 
-// ── Mode ────────────────────────────────────────────────────
 function setMode(m) {
   mode = m;
   document.getElementById('textMode').classList.toggle('hidden', m !== 'text');
@@ -729,7 +732,6 @@ function setMode(m) {
     m === 'text' ? 'Text mode · Ask any question' : 'Voice mode · Speak your question';
 }
 
-// ── Text ────────────────────────────────────────────────────
 function handleKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendText(); }
 }
@@ -739,7 +741,7 @@ function autoResize(el) {
   el.style.height = Math.min(el.scrollHeight, 160) + 'px';
 }
 
-function fillQuestion(q) {
+function fill(q) {
   const input = document.getElementById('questionInput');
   input.value = q;
   input.focus();
@@ -755,10 +757,9 @@ async function sendText() {
   input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
   document.getElementById('textError').innerHTML = '';
-
   hideEmpty();
-  addMessage('text', 'user', question);
-  const thinking = addThinking('text');
+  addMsg('messages', 'user', question);
+  const thinking = addThinking('messages');
 
   try {
     const res = await fetch(`${API}/ask`, {
@@ -766,20 +767,18 @@ async function sendText() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question })
     });
-    if (!res.ok) throw new Error('Server error');
+    if (!res.ok) throw new Error(`Server returned ${res.status}`);
     const data = await res.json();
     thinking.remove();
-    addMessage('text', 'assistant', data.answer);
+    addMsg('messages', 'assistant', data.answer);
   } catch (e) {
     thinking.remove();
     document.getElementById('textError').innerHTML =
-      `<div class="error-msg">⚠ Could not reach Verdict AI. Is the server running?</div>`;
+      `<div class="error-msg">⚠ ${e.message} — is the server running? (python api.py)</div>`;
   }
-
   document.getElementById('sendBtn').disabled = false;
 }
 
-// ── Voice ───────────────────────────────────────────────────
 async function toggleRecording() {
   if (isRecording) stopRecording();
   else await startRecording();
@@ -787,7 +786,6 @@ async function toggleRecording() {
 
 async function startRecording() {
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
@@ -796,10 +794,10 @@ async function startRecording() {
     mediaRecorder.onstop = processVoice;
     mediaRecorder.start();
     isRecording = true;
-    setOrbState('recording');
+    setOrb('recording');
   } catch {
     document.getElementById('voiceError').innerHTML =
-      `<div class="error-msg">⚠ Microphone access denied. Please allow mic permissions.</div>`;
+      `<div class="error-msg">⚠ Microphone access denied.</div>`;
   }
 }
 
@@ -808,47 +806,45 @@ function stopRecording() {
     mediaRecorder.stop();
     mediaRecorder.stream.getTracks().forEach(t => t.stop());
     isRecording = false;
-    setOrbState('processing');
+    setOrb('processing');
   }
 }
 
 async function processVoice() {
   const blob = new Blob(audioChunks, { type: 'audio/webm' });
-  const formData = new FormData();
-  formData.append('audio', blob, 'recording.webm');
+  const fd = new FormData();
+  fd.append('audio', blob, 'recording.webm');
   document.getElementById('voiceError').innerHTML = '';
 
   try {
-    const res = await fetch(`${API}/ask-voice`, { method: 'POST', body: formData });
-
+    const res = await fetch(`${API}/ask-voice`, { method: 'POST', body: fd });
     if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || 'Voice request failed');
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server returned ${res.status}`);
     }
 
     const qRaw = res.headers.get('X-Question') || '';
     const aRaw = res.headers.get('X-Answer') || '';
     const question = qRaw ? atob(qRaw) : '(voice question)';
-    const answerPreview = aRaw ? atob(aRaw) : '';
+    const answer   = aRaw ? atob(aRaw) : '';
 
-    addMessage('voice', 'user', question);
-    addMessage('voice', 'assistant', answerPreview + (answerPreview.length >= 800 ? '…' : ''));
+    addMsg('voiceMessages', 'user', question);
+    addMsg('voiceMessages', 'assistant', answer + (answer.length >= 800 ? '…' : ''));
 
     const audioBlob = await res.blob();
-    const audioUrl = URL.createObjectURL(audioBlob);
-    currentAudio = new Audio(audioUrl);
-    setOrbState('playing');
+    const url = URL.createObjectURL(audioBlob);
+    currentAudio = new Audio(url);
+    setOrb('playing');
     currentAudio.play();
-    currentAudio.onended = () => { setOrbState('idle'); URL.revokeObjectURL(audioUrl); };
-
+    currentAudio.onended = () => { setOrb('idle'); URL.revokeObjectURL(url); };
   } catch (e) {
-    setOrbState('idle');
+    setOrb('idle');
     document.getElementById('voiceError').innerHTML =
-      `<div class="error-msg">⚠ ${e.message || 'Voice processing failed'}</div>`;
+      `<div class="error-msg">⚠ ${e.message}</div>`;
   }
 }
 
-function setOrbState(state) {
+function setOrb(state) {
   const btn    = document.getElementById('voiceBtn');
   const status = document.getElementById('voiceStatus');
   const hint   = document.getElementById('voiceHint');
@@ -859,58 +855,51 @@ function setOrbState(state) {
   wave.className = 'waveform';
 
   const map = {
-    idle:       { icon: '🎙', status: 'Press to speak',            hint: 'Tap to begin recording' },
-    recording:  { icon: '⏹',  status: 'Recording…',               hint: 'Tap again to stop', cls: 'recording', wave: true },
-    processing: { icon: '⟳',  status: 'Transcribing & analysing…', hint: 'Please wait',       cls: 'processing' },
-    playing:    { icon: '🔊', status: 'Playing response…',         hint: 'Audio playing',     cls: 'playing' },
+    idle:       { icon:'🎙', s:'Press to speak',             h:'Tap to begin recording' },
+    recording:  { icon:'⏹',  s:'Recording…',                 h:'Tap again to stop',          cls:'recording', wave:true },
+    processing: { icon:'⟳',  s:'Transcribing & analysing…',  h:'Please wait',                cls:'processing' },
+    playing:    { icon:'🔊', s:'Playing response…',           h:'Audio playing',              cls:'playing' },
   };
 
   const s = map[state] || map.idle;
-  icon.textContent  = s.icon;
-  status.textContent = s.status;
-  hint.textContent   = s.hint;
+  icon.textContent   = s.icon;
+  status.textContent = s.s;
+  hint.textContent   = s.h;
   if (s.cls)  btn.classList.add(s.cls);
   if (s.wave) wave.classList.add('active');
 }
 
-// ── UI helpers ──────────────────────────────────────────────
 function hideEmpty() {
   const e = document.getElementById('emptyState');
   if (e) e.remove();
 }
 
-function addMessage(panel, role, text) {
-  const container = panel === 'text'
-    ? document.getElementById('messages')
-    : document.getElementById('voiceMessages');
-
+function addMsg(containerId, role, text) {
+  const c = document.getElementById(containerId);
   const el = document.createElement('div');
   el.className = `message ${role}`;
   el.innerHTML = `
     <div class="msg-avatar">${role === 'user' ? 'YOU' : 'AI'}</div>
     <div class="msg-body">
       <div class="msg-label">${role === 'user' ? 'Your question' : 'Verdict AI'}</div>
-      <div class="msg-text">${escHtml(text)}</div>
+      <div class="msg-text">${esc(text)}</div>
     </div>`;
-  container.appendChild(el);
+  c.appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return el;
 }
 
-function addThinking(panel) {
-  const container = panel === 'text'
-    ? document.getElementById('messages')
-    : document.getElementById('voiceMessages');
-
+function addThinking(containerId) {
+  const c = document.getElementById(containerId);
   const el = document.createElement('div');
   el.className = 'thinking';
-  el.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Consulting the Constitution</span>`;
-  container.appendChild(el);
+  el.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Consulting the Constitution…</span>`;
+  c.appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return el;
 }
 
-function escHtml(s) {
+function esc(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');
 }
 </script>
