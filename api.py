@@ -95,15 +95,22 @@ async def ask_voice(audio: UploadFile = File(...)):
         if tts_response.status_code != 200:
             raise HTTPException(status_code=500, detail="TTS generation failed")
 
-        # Step 5: Return audio + metadata in headers
-        return StreamingResponse(
-            iter([tts_response.content]),
-            media_type="audio/mpeg",
-            headers={
-                "X-Question": question,
-                "X-Answer": answer[:500]  # truncated for header size limits
-            }
-        )
+    import base64
+
+    # Step 5: Return audio + metadata in headers
+    # Encode text to base64 to avoid illegal characters in headers
+    q_encoded = base64.b64encode(question.encode()).decode()
+    a_encoded = base64.b64encode(answer[:800].encode()).decode()
+
+    return StreamingResponse(
+                iter([tts_response.content]),
+                media_type="audio/mpeg",
+                headers={
+                    "X-Question": q_encoded,
+                    "X-Answer": a_encoded,
+                    "Access-Control-Expose-Headers": "X-Question, X-Answer"
+                }
+            )
 
     except HTTPException:
         raise
