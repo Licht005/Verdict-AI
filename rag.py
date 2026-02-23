@@ -48,19 +48,19 @@ class VerdictRAG:
         vectorstore.save_local(FAISS_INDEX_PATH)
         return vectorstore
 
-    def _setup_chain(self):
-        vectorstore = self._build_vectorstore()
-        base_retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
-        compression_retriever = ContextualCompressionRetriever(
-            base_compressor=FlashrankRerank(top_n=3),
-            base_retriever=base_retriever
-        )
-        return RetrievalQA.from_chain_type(
-            llm=self.llm,
-            chain_type="stuff",
-            retriever=compression_retriever,
-            chain_type_kwargs={"prompt": VERDICT_PROMPT}
-        )
+def _setup_chain(self):
+    vectorstore = self._build_vectorstore()
+    base_retriever = vectorstore.as_retriever(search_kwargs={"k": 30})  # cast wider net
+    compression_retriever = ContextualCompressionRetriever(
+        base_compressor=FlashrankRerank(top_n=6),  # keep more after rerank
+        base_retriever=base_retriever
+    )
+    return RetrievalQA.from_chain_type(
+        llm=self.llm,
+        chain_type="stuff",
+        retriever=compression_retriever,
+        chain_type_kwargs={"prompt": VERDICT_PROMPT}
+    )
 
     def ask(self, query: str) -> str:
         response = self.qa_chain.invoke(query)
