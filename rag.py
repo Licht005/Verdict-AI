@@ -43,10 +43,11 @@ class VerdictRAG:
             chunk_overlap=200,
             separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
         )
-        chunks = splitter.split_documents(docs)
-        vectorstore = FAISS.from_documents(chunks, self.embeddings)
-        vectorstore.save_local(FAISS_INDEX_PATH)
-        return vectorstore
+        splitter = RecursiveCharacterTextSplitter(
+    chunk_size=1500,      # bigger chunks = less chance of cutting mid-article
+    chunk_overlap=300,    # more overlap = less chance of missing boundary text
+    separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
+)
 
 def _setup_chain(self):
     vectorstore = self._build_vectorstore()
