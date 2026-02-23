@@ -1,4 +1,5 @@
 import os
+import base64
 import tempfile
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, UploadFile, File
@@ -43,10 +44,6 @@ async def ask_lawyer(request: QueryRequest):
 
 @app.post("/ask-voice")
 async def ask_voice(audio: UploadFile = File(...)):
-    """
-    Accepts an audio file, transcribes with Groq Whisper,
-    runs through RAG, returns audio response via ElevenLabs.
-    """
     try:
         # Step 1: Save uploaded audio to temp file
         audio_bytes = await audio.read()
@@ -72,7 +69,7 @@ async def ask_voice(audio: UploadFile = File(...)):
 
         # Step 4: Convert answer to speech via ElevenLabs
         eleven_api_key = os.getenv("ELEVENLABS_API_KEY")
-        voice_id = os.getenv("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")  # default: George
+        voice_id = os.getenv("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")
 
         async with httpx.AsyncClient() as client:
             tts_response = await client.post(
@@ -95,22 +92,19 @@ async def ask_voice(audio: UploadFile = File(...)):
         if tts_response.status_code != 200:
             raise HTTPException(status_code=500, detail="TTS generation failed")
 
-    import base64
+        # Step 5: Base64 encode to avoid illegal characters in HTTP headers
+        q_encoded = base64.b64encode(question.encode()).decode()
+        a_encoded = base64.b64encode(answer[:800].encode()).decode()
 
-    # Step 5: Return audio + metadata in headers
-    # Encode text to base64 to avoid illegal characters in headers
-    q_encoded = base64.b64encode(question.encode()).decode()
-    a_encoded = base64.b64encode(answer[:800].encode()).decode()
-
-    return StreamingResponse(
-                iter([tts_response.content]),
-                media_type="audio/mpeg",
-                headers={
-                    "X-Question": q_encoded,
-                    "X-Answer": a_encoded,
-                    "Access-Control-Expose-Headers": "X-Question, X-Answer"
-                }
-            )
+        return StreamingResponse(
+            iter([tts_response.content]),
+            media_type="audio/mpeg",
+            headers={
+                "X-Question": q_encoded,
+                "X-Answer": a_encoded,
+                "Access-Control-Expose-Headers": "X-Question, X-Answer"
+            }
+        )
 
     except HTTPException:
         raise
