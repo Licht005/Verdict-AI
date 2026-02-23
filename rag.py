@@ -18,7 +18,7 @@ class VerdictRAG:
     def __init__(self):
         base_dir = os.path.dirname(os.path.abspath(__file__))
         self.pdf_path = os.path.join(base_dir, "Doc", "Ghana Constitution.pdf")
-        
+
         api_key = os.getenv("GROQ_API_KEY")
         if not api_key:
             raise ValueError("GROQ_API_KEY not set in environment")
@@ -32,36 +32,35 @@ class VerdictRAG:
         self.qa_chain = self._setup_chain()
 
     def _build_vectorstore(self):
-        # Cache FAISS index to avoid rebuilding on every startup.
         if os.path.exists(FAISS_INDEX_PATH):
             return FAISS.load_local(FAISS_INDEX_PATH, self.embeddings, allow_dangerous_deserialization=True)
-        
+
         loader = PDFPlumberLoader(self.pdf_path)
         docs = loader.load()
+
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=200,
+            chunk_size=1500,
+            chunk_overlap=300,
             separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
         )
-        splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1500,      # bigger chunks = less chance of cutting mid-article
-    chunk_overlap=300,    # more overlap = less chance of missing boundary text
-    separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
-)
+        chunks = splitter.split_documents(docs)
+        vectorstore = FAISS.from_documents(chunks, self.embeddings)
+        vectorstore.save_local(FAISS_INDEX_PATH)
+        return vectorstore  # ✅ this was missing
 
-def _setup_chain(self):
-    vectorstore = self._build_vectorstore()
-    base_retriever = vectorstore.as_retriever(search_kwargs={"k": 30})  # cast wider net
-    compression_retriever = ContextualCompressionRetriever(
-        base_compressor=FlashrankRerank(top_n=6),  # keep more after rerank
-        base_retriever=base_retriever
-    )
-    return RetrievalQA.from_chain_type(
-        llm=self.llm,
-        chain_type="stuff",
-        retriever=compression_retriever,
-        chain_type_kwargs={"prompt": VERDICT_PROMPT}
-    )
+    def _setup_chain(self):
+        vectorstore = self._build_vectorstore()
+        base_retriever = vectorstore.as_retriever(search_kwargs={"k": 30})
+        compression_retriever = ContextualCompressionRetriever(
+            base_compressor=FlashrankRerank(top_n=6),
+            base_retriever=base_retriever
+        )
+        return RetrievalQA.from_chain_type(
+            llm=self.llm,
+            chain_type="stuff",
+            retriever=compression_retriever,
+            chain_type_kwargs={"prompt": VERDICT_PROMPT}
+        )
 
     def ask(self, query: str) -> str:
         response = self.qa_chain.invoke(query)
