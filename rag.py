@@ -6,8 +6,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.retrievers import ContextualCompressionRetriever
-from langchain_community.document_compressors.flashrank_rerank import FlashrankRerank
 from prompt import VERDICT_PROMPT
 
 load_dotenv()
@@ -39,26 +37,23 @@ class VerdictRAG:
         docs = loader.load()
 
         splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1500,
-        chunk_overlap=300,
-        separators=["\nCHAPTER", "\n\n", "\n(?=\\d+\\.)", "\n", " "]
-    )
+            chunk_size=1500,
+            chunk_overlap=300,
+            separators=["\nCHAPTER", "\n\n", "\n", " "]
+        )
         chunks = splitter.split_documents(docs)
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
         vectorstore.save_local(FAISS_INDEX_PATH)
-        return vectorstore  
+        return vectorstore
 
     def _setup_chain(self):
         vectorstore = self._build_vectorstore()
-        base_retriever = vectorstore.as_retriever(search_kwargs={"k": 30})
-        compression_retriever = ContextualCompressionRetriever(
-            base_compressor=FlashrankRerank(top_n=6),
-            base_retriever=base_retriever
-        )
+        retriever = vectorstore.as_retriever(search_kwargs={"k": 6})
+
         return RetrievalQA.from_chain_type(
             llm=self.llm,
             chain_type="stuff",
-            retriever=compression_retriever,
+            retriever=retriever,
             chain_type_kwargs={"prompt": VERDICT_PROMPT}
         )
 
