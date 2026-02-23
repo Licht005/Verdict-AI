@@ -39,10 +39,10 @@ class VerdictRAG:
         docs = loader.load()
 
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1500,
-            chunk_overlap=300,
-            separators=["\nArticle", "\nCHAPTER", "\n\n", "\n", " "]
-        )
+        chunk_size=1500,
+        chunk_overlap=300,
+        separators=["\nCHAPTER", "\n\n", "\n(?=\\d+\\.)", "\n", " "]
+    )
         chunks = splitter.split_documents(docs)
         vectorstore = FAISS.from_documents(chunks, self.embeddings)
         vectorstore.save_local(FAISS_INDEX_PATH)
