@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Verdict AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>Verdict AI — Ghana Constitutional Law</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --border: #1e1e2e;
-    --accent: #c9a84c;
-    --accent-dim: #8a6f2e;
-    --text: #e8e4d9;
-    --text-dim: #6b6760;
-    --red: #c0392b;
-    --green: #27ae60;
+    --bg:           #f4f2ee;
+    --surface:      #ffffff;
+    --surface-2:    #eeece8;
+    --border:       #d8d4cc;
+    --border-light: #e8e4de;
+    --text:         #1a1814;
+    --text-2:       #5a5650;
+    --text-3:       #9a9590;
+    --accent:       #1a3a5c;
+    --accent-2:     #2d5f8a;
+    --gold:         #8a6f2e;
+    --gold-light:   #c9a84c;
+    --red:          #8b2020;
+    --green:        #1a5c35;
+    --shadow:       0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-lg:    0 4px 24px rgba(0,0,0,0.10);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,276 +30,494 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Sans', sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--accent);
+    color: #fff;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 56px;
+    flex-shrink: 0;
   }
 
-  /* Subtle grain overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  header {
-    width: 100%;
-    max-width: 800px;
-    padding: 48px 24px 24px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 13px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 6vw, 56px);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text);
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .subtitle {
-    margin-top: 10px;
-    font-size: 12px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
-
-  /* Mode toggle */
-  .mode-toggle {
+  .topbar-brand {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 32px;
-    padding: 4px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    width: fit-content;
+  }
+
+  .topbar-seal {
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .topbar-name {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #fff;
+  }
+
+  .topbar-name span {
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.75;
+    font-size: 15px;
+    margin-left: 4px;
+  }
+
+  .topbar-meta {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 32px 24px;
+    gap: 24px;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section {
+    margin-bottom: 28px;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 10px;
   }
 
   .mode-btn {
-    padding: 8px 20px;
-    border-radius: 100px;
-    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
     background: transparent;
-    color: var(--text-dim);
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
+    color: var(--text-2);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.15s;
+    text-align: left;
+    margin-bottom: 2px;
+  }
+
+  .mode-btn:hover {
+    background: var(--surface-2);
+    color: var(--text);
   }
 
   .mode-btn.active {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--accent);
+    box-shadow: var(--shadow);
+  }
+
+  .mode-btn .btn-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background: var(--surface-2);
+    flex-shrink: 0;
+  }
+
+  .mode-btn.active .btn-icon {
     background: var(--accent);
-    color: #0a0a0f;
-    font-weight: 500;
+    color: #fff;
   }
 
-  /* Main container */
-  main {
-    width: 100%;
-    max-width: 800px;
-    padding: 0 24px 48px;
-    position: relative;
-    z-index: 1;
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 20px 0;
+  }
+
+  .sidebar-info {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.7;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* ── Main panel ── */
+  .panel {
     flex: 1;
-  }
-
-  /* Chat messages */
-  .messages {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-bottom: 24px;
-    min-height: 200px;
+    overflow: hidden;
+    min-height: 600px;
   }
+
+  .panel-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .panel-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .panel-title span {
+    display: block;
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    color: var(--text-3);
+    margin-top: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .panel-badge {
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: #f8f3e8;
+    border: 1px solid #e8d8a8;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* ── Messages ── */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .messages::-webkit-scrollbar { width: 4px; }
+  .messages::-webkit-scrollbar-track { background: transparent; }
+  .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
   .message {
-    padding: 16px 20px;
-    border-radius: 2px;
-    font-size: 14px;
-    line-height: 1.7;
-    animation: fadeUp 0.3s ease;
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+    animation: fadeIn 0.25s ease;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
+  .message:last-child { border-bottom: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .message.user {
-    background: var(--surface);
-    border-left: 2px solid var(--accent);
-    color: var(--text);
-    align-self: flex-end;
-    max-width: 85%;
-  }
-
-  .message.assistant {
-    background: transparent;
-    border-left: 2px solid var(--border);
-    color: var(--text);
-    align-self: flex-start;
-    max-width: 95%;
-  }
-
-  .message .label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    color: var(--text-dim);
-  }
-
-  .message.user .label { color: var(--accent-dim); }
-
-  /* Text input area */
-  .text-input-area {
+  .msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
     display: flex;
-    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+
+  .message.user .msg-avatar {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+  }
+
+  .message.assistant .msg-avatar {
+    background: #f0f4f8;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  .msg-body { flex: 1; min-width: 0; }
+
+  .msg-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .message.user .msg-label { color: var(--accent-2); }
+
+  .msg-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .message.assistant .msg-text {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 14.5px;
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    color: var(--text-3);
+  }
+
+  .empty-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+
+  .empty-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 18px;
+    color: var(--text-2);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .empty-sub {
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 320px;
+  }
+
+  .suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+
+  .chip {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: #f0f4f8;
+  }
+
+  /* ── Input area ── */
+  .input-area {
+    border-top: 1px solid var(--border-light);
+    padding: 16px 24px;
+    background: var(--surface);
+  }
+
+  .text-row {
+    display: flex;
+    gap: 10px;
     align-items: flex-end;
   }
 
   textarea {
     flex: 1;
-    background: var(--surface);
+    background: var(--bg);
     border: 1px solid var(--border);
+    border-radius: 4px;
     color: var(--text);
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 14px;
-    padding: 14px 16px;
-    border-radius: 2px;
+    font-weight: 300;
+    padding: 12px 14px;
     resize: none;
-    min-height: 52px;
-    max-height: 200px;
+    min-height: 46px;
+    max-height: 160px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s;
     line-height: 1.6;
   }
 
-  textarea:focus { border-color: var(--accent-dim); }
-  textarea::placeholder { color: var(--text-dim); }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--text-3); }
 
   .send-btn {
+    height: 46px;
+    padding: 0 20px;
     background: var(--accent);
-    color: #0a0a0f;
+    color: #fff;
     border: none;
-    padding: 14px 24px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
+    border-radius: 4px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    border-radius: 2px;
-    transition: all 0.2s;
+    transition: background 0.15s;
     white-space: nowrap;
+    letter-spacing: 0.02em;
   }
 
-  .send-btn:hover { background: #e0bb5a; }
+  .send-btn:hover { background: var(--accent-2); }
   .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* Voice input area */
-  .voice-input-area {
+  /* ── Voice panel ── */
+  .voice-panel {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding: 32px 0;
+    justify-content: center;
+    padding: 48px 24px;
+    gap: 32px;
   }
 
-  .voice-orb {
-    width: 100px;
-    height: 100px;
+  .voice-ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .voice-btn {
+    position: absolute;
+    inset: 0;
     border-radius: 50%;
+    border: 1.5px solid var(--border);
     background: var(--surface);
-    border: 2px solid var(--border);
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    position: relative;
+    font-size: 28px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-lg);
   }
 
-  .voice-orb:hover {
-    border-color: var(--accent-dim);
-    transform: scale(1.03);
-  }
-
-  .voice-orb.recording {
-    border-color: var(--red);
-    animation: pulse 1.5s infinite;
-  }
-
-  .voice-orb.processing {
+  .voice-btn:hover {
     border-color: var(--accent);
-    animation: spin-border 1s linear infinite;
+    box-shadow: 0 0 0 4px rgba(26,58,92,0.08), var(--shadow-lg);
   }
 
-  .voice-orb.playing {
+  .voice-btn.recording {
+    border-color: var(--red);
+    background: #fff8f8;
+    animation: recordPulse 2s infinite;
+  }
+
+  .voice-btn.processing {
+    border-color: var(--gold-light);
+    background: #fffdf5;
+  }
+
+  .voice-btn.playing {
     border-color: var(--green);
-    animation: pulse-green 1.5s infinite;
+    background: #f5fdf8;
   }
 
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(192, 57, 43, 0.3); }
-    50% { box-shadow: 0 0 0 16px rgba(192, 57, 43, 0); }
+  @keyframes recordPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(139,32,32,0.15), var(--shadow-lg); }
+    50%       { box-shadow: 0 0 0 12px rgba(139,32,32,0), var(--shadow-lg); }
   }
 
-  @keyframes pulse-green {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.3); }
-    50% { box-shadow: 0 0 0 16px rgba(39, 174, 96, 0); }
+  .voice-indicator {
+    text-align: center;
   }
 
-  @keyframes spin-border {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  .voice-status-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-2);
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
   }
 
-  .orb-icon {
-    font-size: 32px;
-    pointer-events: none;
+  .voice-hint {
+    font-size: 11px;
+    color: var(--text-3);
+    font-family: 'IBM Plex Mono', monospace;
   }
 
-  .voice-status {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    min-height: 20px;
-  }
-
-  .voice-status.recording { color: var(--red); }
-  .voice-status.processing { color: var(--accent); }
-  .voice-status.playing { color: var(--green); }
-
-  /* Waveform bars */
+  /* Waveform */
   .waveform {
     display: flex;
     align-items: center;
     gap: 3px;
-    height: 32px;
+    height: 24px;
     opacity: 0;
     transition: opacity 0.3s;
   }
@@ -300,13 +525,13 @@
   .waveform.active { opacity: 1; }
 
   .bar {
-    width: 3px;
+    width: 2px;
     background: var(--red);
-    border-radius: 2px;
-    animation: wave 0.8s ease-in-out infinite;
+    border-radius: 1px;
+    animation: wavebar 0.9s ease-in-out infinite;
   }
 
-  .bar:nth-child(1) { animation-delay: 0s; }
+  .bar:nth-child(1) { animation-delay: 0.0s; }
   .bar:nth-child(2) { animation-delay: 0.1s; }
   .bar:nth-child(3) { animation-delay: 0.2s; }
   .bar:nth-child(4) { animation-delay: 0.3s; }
@@ -314,49 +539,30 @@
   .bar:nth-child(6) { animation-delay: 0.3s; }
   .bar:nth-child(7) { animation-delay: 0.2s; }
   .bar:nth-child(8) { animation-delay: 0.1s; }
-  .bar:nth-child(9) { animation-delay: 0s; }
+  .bar:nth-child(9) { animation-delay: 0.0s; }
 
-  @keyframes wave {
-    0%, 100% { height: 4px; }
-    50% { height: 24px; }
+  @keyframes wavebar {
+    0%, 100% { height: 3px; }
+    50%       { height: 18px; }
   }
 
-  /* Hidden */
-  .hidden { display: none !important; }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 24px 0;
-  }
-
-  /* Error toast */
-  .error {
-    background: rgba(192, 57, 43, 0.1);
-    border-left: 2px solid var(--red);
-    color: #e74c3c;
-    padding: 12px 16px;
-    font-size: 13px;
-    border-radius: 2px;
-    animation: fadeUp 0.3s ease;
-  }
-
-  /* Thinking indicator */
+  /* ── Thinking ── */
   .thinking {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: var(--text-dim);
+    gap: 10px;
+    padding: 16px 0;
+    color: var(--text-3);
     font-size: 12px;
-    letter-spacing: 0.1em;
-    padding: 12px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border-light);
   }
 
   .dot {
-    width: 4px;
-    height: 4px;
-    background: var(--accent-dim);
+    width: 3px;
+    height: 3px;
+    background: var(--gold-light);
     border-radius: 50%;
     animation: blink 1.2s infinite;
   }
@@ -364,61 +570,145 @@
   .dot:nth-child(3) { animation-delay: 0.4s; }
 
   @keyframes blink {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 1; }
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.4); }
   }
+
+  /* ── Error ── */
+  .error-msg {
+    padding: 10px 14px;
+    background: #fdf5f5;
+    border: 1px solid #e8c0c0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--red);
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── Utility ── */
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">Verdict AI</div>
-  <h1>Ghana's Constitution,<br/><em>answered.</em></h1>
-  <p class="subtitle">Powered by LLaMA 3.3 · Groq · ElevenLabs</p>
-
-  <div class="mode-toggle">
-    <button class="mode-btn active" id="textModeBtn" onclick="setMode('text')">⌨ Text</button>
-    <button class="mode-btn" id="voiceModeBtn" onclick="setMode('voice')">🎙 Voice</button>
+<!-- Top bar -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-seal">⚖</div>
+    <div class="topbar-name">Verdict<span>AI</span></div>
   </div>
-</header>
+  <div class="topbar-meta">Ghana Constitutional Law · Research Assistant</div>
+</div>
 
-<main>
-  <div class="divider"></div>
+<!-- Layout -->
+<div class="layout">
 
-  <!-- Messages -->
-  <div class="messages" id="messages"></div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Interface</div>
+      <button class="mode-btn active" id="textModeBtn" onclick="setMode('text')">
+        <div class="btn-icon">⌨</div>
+        Text Query
+      </button>
+      <button class="mode-btn" id="voiceModeBtn" onclick="setMode('voice')">
+        <div class="btn-icon">🎙</div>
+        Voice Query
+      </button>
+    </div>
 
-  <!-- Text mode -->
-  <div id="textMode">
-    <div class="text-input-area">
-      <textarea
-        id="questionInput"
-        placeholder="Ask about any article, right, or provision of the Ghana Constitution..."
-        rows="1"
-        onkeydown="handleKey(event)"
-        oninput="autoResize(this)"
-      ></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendText()">Ask →</button>
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">System</div>
+      <div class="sidebar-info">
+        <div><span class="status-dot"></span>RAG Online</div>
+        <div style="margin-top:6px;">Model: LLaMA 3.3 70B</div>
+        <div style="margin-top:4px;">STT: Whisper v3</div>
+        <div style="margin-top:4px;">TTS: ElevenLabs</div>
+        <div style="margin-top:4px;">Source: GH Constitution</div>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Built by</div>
+      <div class="sidebar-info">Lucas · 2025</div>
     </div>
   </div>
 
-  <!-- Voice mode -->
-  <div id="voiceMode" class="hidden">
-    <div class="voice-input-area">
-      <div class="waveform" id="waveform">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <!-- Panel -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        Constitutional Query
+        <span id="modeLabel">Text mode · Ask any question</span>
       </div>
-
-      <div class="voice-orb" id="voiceOrb" onclick="toggleRecording()">
-        <span class="orb-icon" id="orbIcon">🎙</span>
-      </div>
-
-      <div class="voice-status" id="voiceStatus">tap to speak</div>
+      <div class="panel-badge">1992 Constitution</div>
     </div>
+
+    <!-- TEXT MODE -->
+    <div id="textMode">
+      <div class="messages" id="messages">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">📜</div>
+          <div class="empty-title">Ask about Ghana's Constitution</div>
+          <div class="empty-sub">Query any article, right, chapter, or provision. Verdict AI will find and cite the exact clause.</div>
+          <div class="suggestion-chips">
+            <div class="chip" onclick="fillQuestion('What does Article 6 say?')">Article 6</div>
+            <div class="chip" onclick="fillQuestion('What are the fundamental human rights?')">Human Rights</div>
+            <div class="chip" onclick="fillQuestion('What does Article 35 say about the state?')">Article 35</div>
+            <div class="chip" onclick="fillQuestion('What is the role of Parliament?')">Parliament</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <div class="text-row">
+          <textarea
+            id="questionInput"
+            placeholder="Ask about any article, right, or provision…"
+            rows="1"
+            onkeydown="handleKey(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendText()">Submit</button>
+        </div>
+        <div id="textError"></div>
+      </div>
+    </div>
+
+    <!-- VOICE MODE -->
+    <div id="voiceMode" class="hidden">
+      <div class="messages" id="voiceMessages"></div>
+
+      <div class="input-area">
+        <div class="voice-panel">
+          <div class="waveform" id="waveform">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          </div>
+
+          <div class="voice-ring">
+            <div class="voice-btn" id="voiceBtn" onclick="toggleRecording()">
+              <span id="orbIcon">🎙</span>
+            </div>
+          </div>
+
+          <div class="voice-indicator">
+            <div class="voice-status-text" id="voiceStatus">Press to speak</div>
+            <div class="voice-hint" id="voiceHint">Hold to record · Release or tap to stop</div>
+          </div>
+        </div>
+        <div id="voiceError"></div>
+      </div>
+    </div>
+
   </div>
-</main>
+</div>
 
 <script>
 const API = 'http://localhost:8000';
@@ -428,23 +718,32 @@ let audioChunks = [];
 let isRecording = false;
 let currentAudio = null;
 
-// ── Mode switching ──────────────────────────────────────────
+// ── Mode ────────────────────────────────────────────────────
 function setMode(m) {
   mode = m;
   document.getElementById('textMode').classList.toggle('hidden', m !== 'text');
   document.getElementById('voiceMode').classList.toggle('hidden', m !== 'voice');
   document.getElementById('textModeBtn').classList.toggle('active', m === 'text');
   document.getElementById('voiceModeBtn').classList.toggle('active', m === 'voice');
+  document.getElementById('modeLabel').textContent =
+    m === 'text' ? 'Text mode · Ask any question' : 'Voice mode · Speak your question';
 }
 
-// ── Text mode ───────────────────────────────────────────────
+// ── Text ────────────────────────────────────────────────────
 function handleKey(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendText(); }
 }
 
 function autoResize(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+  el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+}
+
+function fillQuestion(q) {
+  const input = document.getElementById('questionInput');
+  input.value = q;
+  input.focus();
+  autoResize(input);
 }
 
 async function sendText() {
@@ -455,9 +754,11 @@ async function sendText() {
   input.value = '';
   input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
+  document.getElementById('textError').innerHTML = '';
 
-  addMessage('user', question);
-  const thinking = addThinking();
+  hideEmpty();
+  addMessage('text', 'user', question);
+  const thinking = addThinking('text');
 
   try {
     const res = await fetch(`${API}/ask`, {
@@ -465,24 +766,23 @@ async function sendText() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question })
     });
+    if (!res.ok) throw new Error('Server error');
     const data = await res.json();
     thinking.remove();
-    addMessage('assistant', data.answer);
+    addMessage('text', 'assistant', data.answer);
   } catch (e) {
     thinking.remove();
-    addError('Could not reach Verdict AI. Is the server running?');
+    document.getElementById('textError').innerHTML =
+      `<div class="error-msg">⚠ Could not reach Verdict AI. Is the server running?</div>`;
   }
 
   document.getElementById('sendBtn').disabled = false;
 }
 
-// ── Voice mode ──────────────────────────────────────────────
+// ── Voice ───────────────────────────────────────────────────
 async function toggleRecording() {
-  if (isRecording) {
-    stopRecording();
-  } else {
-    await startRecording();
-  }
+  if (isRecording) stopRecording();
+  else await startRecording();
 }
 
 async function startRecording() {
@@ -492,15 +792,14 @@ async function startRecording() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     audioChunks = [];
     mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
-
     mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
     mediaRecorder.onstop = processVoice;
     mediaRecorder.start();
-
     isRecording = true;
     setOrbState('recording');
-  } catch (e) {
-    addError('Microphone access denied. Please allow mic access and try again.');
+  } catch {
+    document.getElementById('voiceError').innerHTML =
+      `<div class="error-msg">⚠ Microphone access denied. Please allow mic permissions.</div>`;
   }
 }
 
@@ -517,98 +816,102 @@ async function processVoice() {
   const blob = new Blob(audioChunks, { type: 'audio/webm' });
   const formData = new FormData();
   formData.append('audio', blob, 'recording.webm');
+  document.getElementById('voiceError').innerHTML = '';
 
   try {
-    const res = await fetch(`${API}/ask-voice`, {
-      method: 'POST',
-      body: formData
-    });
+    const res = await fetch(`${API}/ask-voice`, { method: 'POST', body: formData });
 
     if (!res.ok) {
       const err = await res.json();
       throw new Error(err.detail || 'Voice request failed');
     }
 
-    const question = res.headers.get('X-Question') || '(voice question)';
-    const answerPreview = res.headers.get('X-Answer') || '';
+    const qRaw = res.headers.get('X-Question') || '';
+    const aRaw = res.headers.get('X-Answer') || '';
+    const question = qRaw ? atob(qRaw) : '(voice question)';
+    const answerPreview = aRaw ? atob(aRaw) : '';
 
-    addMessage('user', question);
-    addMessage('assistant', answerPreview + (answerPreview.length >= 500 ? '...' : ''));
+    addMessage('voice', 'user', question);
+    addMessage('voice', 'assistant', answerPreview + (answerPreview.length >= 800 ? '…' : ''));
 
-    // Play the audio response
     const audioBlob = await res.blob();
     const audioUrl = URL.createObjectURL(audioBlob);
     currentAudio = new Audio(audioUrl);
-
     setOrbState('playing');
     currentAudio.play();
-    currentAudio.onended = () => {
-      setOrbState('idle');
-      URL.revokeObjectURL(audioUrl);
-    };
+    currentAudio.onended = () => { setOrbState('idle'); URL.revokeObjectURL(audioUrl); };
 
   } catch (e) {
     setOrbState('idle');
-    addError(e.message || 'Voice processing failed');
+    document.getElementById('voiceError').innerHTML =
+      `<div class="error-msg">⚠ ${e.message || 'Voice processing failed'}</div>`;
   }
 }
 
 function setOrbState(state) {
-  const orb = document.getElementById('voiceOrb');
+  const btn    = document.getElementById('voiceBtn');
   const status = document.getElementById('voiceStatus');
-  const waveform = document.getElementById('waveform');
-  const icon = document.getElementById('orbIcon');
+  const hint   = document.getElementById('voiceHint');
+  const wave   = document.getElementById('waveform');
+  const icon   = document.getElementById('orbIcon');
 
-  orb.className = 'voice-orb';
-  status.className = 'voice-status';
-  waveform.className = 'waveform';
+  btn.className = 'voice-btn';
+  wave.className = 'waveform';
 
-  const states = {
-    idle:       { icon: '🎙', label: 'tap to speak' },
-    recording:  { icon: '⏹', label: 'recording — tap to stop', cls: 'recording' },
-    processing: { icon: '⟳', label: 'transcribing & thinking...', cls: 'processing' },
-    playing:    { icon: '🔊', label: 'playing response', cls: 'playing' },
+  const map = {
+    idle:       { icon: '🎙', status: 'Press to speak',            hint: 'Tap to begin recording' },
+    recording:  { icon: '⏹',  status: 'Recording…',               hint: 'Tap again to stop', cls: 'recording', wave: true },
+    processing: { icon: '⟳',  status: 'Transcribing & analysing…', hint: 'Please wait',       cls: 'processing' },
+    playing:    { icon: '🔊', status: 'Playing response…',         hint: 'Audio playing',     cls: 'playing' },
   };
 
-  const s = states[state] || states.idle;
-  icon.textContent = s.icon;
-  status.textContent = s.label;
-  if (s.cls) {
-    orb.classList.add(s.cls);
-    status.classList.add(s.cls);
-    if (s.cls === 'recording') waveform.classList.add('active');
-  }
+  const s = map[state] || map.idle;
+  icon.textContent  = s.icon;
+  status.textContent = s.status;
+  hint.textContent   = s.hint;
+  if (s.cls)  btn.classList.add(s.cls);
+  if (s.wave) wave.classList.add('active');
 }
 
 // ── UI helpers ──────────────────────────────────────────────
-function addMessage(role, text) {
+function hideEmpty() {
+  const e = document.getElementById('emptyState');
+  if (e) e.remove();
+}
+
+function addMessage(panel, role, text) {
+  const container = panel === 'text'
+    ? document.getElementById('messages')
+    : document.getElementById('voiceMessages');
+
   const el = document.createElement('div');
   el.className = `message ${role}`;
-  el.innerHTML = `<div class="label">${role === 'user' ? 'You' : 'Verdict AI'}</div>${escHtml(text)}`;
-  document.getElementById('messages').appendChild(el);
+  el.innerHTML = `
+    <div class="msg-avatar">${role === 'user' ? 'YOU' : 'AI'}</div>
+    <div class="msg-body">
+      <div class="msg-label">${role === 'user' ? 'Your question' : 'Verdict AI'}</div>
+      <div class="msg-text">${escHtml(text)}</div>
+    </div>`;
+  container.appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return el;
 }
 
-function addThinking() {
+function addThinking(panel) {
+  const container = panel === 'text'
+    ? document.getElementById('messages')
+    : document.getElementById('voiceMessages');
+
   const el = document.createElement('div');
   el.className = 'thinking';
-  el.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Analysing constitution</span>`;
-  document.getElementById('messages').appendChild(el);
+  el.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div><span>Consulting the Constitution</span>`;
+  container.appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return el;
 }
 
-function addError(msg) {
-  const el = document.createElement('div');
-  el.className = 'error';
-  el.textContent = '⚠ ' + msg;
-  document.getElementById('messages').appendChild(el);
-  el.scrollIntoView({ behavior: 'smooth', block: 'end' });
-}
-
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>');
 }
 </script>
 </body>
