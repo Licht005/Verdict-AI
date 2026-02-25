@@ -873,15 +873,20 @@ async function processVoice() {
       throw new Error(err.detail || `Server returned ${res.status}`);
     }
 
-    const qRaw = res.headers.get('X-Question') || '';
-    const aRaw = res.headers.get('X-Answer') || '';
-    const question = qRaw ? atob(qRaw) : '(voice question)';
-    const answer   = aRaw ? atob(aRaw) : '';
+    const data = await res.json();
+    const question = data.question ? atob(data.question) : '(voice question)';
+    const answer   = data.answer   ? atob(data.answer)   : '';
 
     addMsg('voiceMessages', 'user', question);
     addMsg('voiceMessages', 'assistant', answer + (answer.length >= 800 ? '…' : ''));
 
-    const audioBlob = await res.blob();
+    // Decode base64 audio and play it
+    const audioBytes = atob(data.audio);
+    const audioArray = new Uint8Array(audioBytes.length);
+    for (let i = 0; i < audioBytes.length; i++) {
+      audioArray[i] = audioBytes.charCodeAt(i);
+    }
+    const audioBlob = new Blob([audioArray], { type: 'audio/mpeg' });
     const url = URL.createObjectURL(audioBlob);
     currentAudio = new Audio(url);
     setOrb('playing');
