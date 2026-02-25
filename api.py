@@ -3,7 +3,7 @@ import base64
 import tempfile
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from groq import Groq
@@ -92,19 +92,17 @@ async def ask_voice(audio: UploadFile = File(...)):
         if tts_response.status_code != 200:
             raise HTTPException(status_code=500, detail="TTS generation failed")
 
-        # Step 5: Base64 encode to avoid illegal characters in HTTP headers
+        # Step 5: Return everything as JSON with base64 encoded audio
+        # This avoids streaming/CORS issues on HuggingFace Spaces
+        audio_b64 = base64.b64encode(tts_response.content).decode()
         q_encoded = base64.b64encode(question.encode()).decode()
         a_encoded = base64.b64encode(answer[:800].encode()).decode()
 
-        return StreamingResponse(
-            iter([tts_response.content]),
-            media_type="audio/mpeg",
-            headers={
-                "X-Question": q_encoded,
-                "X-Answer": a_encoded,
-                "Access-Control-Expose-Headers": "X-Question, X-Answer"
-            }
-        )
+        return JSONResponse(content={
+            "audio": audio_b64,
+            "question": q_encoded,
+            "answer": a_encoded
+        })
 
     except HTTPException:
         raise
