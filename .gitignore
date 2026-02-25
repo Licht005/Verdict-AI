@@ -1,6 +1,5 @@
 # Credentials & Secrets
 .env
-*.json
 
 # Python & Environments
 __pycache__/
@@ -10,4 +9,3 @@ venv/
 env/
 .venv/
 .conda/
-
