@@ -1,6 +1,6 @@
 # Verdict AI — Ghana Constitutional Law Research Assistant
 
-Verdict AI is an AI-powered legal research tool that lets you query Ghana's 1992 Constitution using natural language — either by typing or speaking. It retrieves exact constitutional provisions, cites specific articles and clauses, and can respond in both text and voice.
+Verdict AI is an AI-powered legal research tool that lets you query Ghana's 1992 Constitution using natural language - either by typing or speaking. It retrieves exact constitutional provisions, cites specific articles and clauses, and can respond in both text and voice.
 
 Built as a demonstration of retrieval-augmented generation (RAG) applied to a structured legal document.
 
@@ -60,7 +60,7 @@ Verdict (v2)/
 
 1. Ghana's 1992 Constitution PDF is parsed and split into overlapping chunks
 2. Each chunk is embedded using `all-MiniLM-L6-v2` and stored in a FAISS index
-3. On query, the system first checks if the user is asking about a specific article using regex pattern matching — if so, it retrieves that article's text directly from the cache
+3. On query, the system first checks if the user is asking about a specific article using regex pattern matching, if so, it retrieves that article's text directly from the cache
 4. For topic-based queries (e.g. "what does the Constitution say about freedom of speech?"), it falls back to semantic vector search
 5. Retrieved chunks are passed to LLaMA 3.3 70B with a structured prompt that instructs it to cite specific clauses in its response
 
@@ -115,7 +115,7 @@ Then open `index.html` in your browser. The app will be available at `http://loc
 
 ## Deployment
 
-The backend is deployed on **HuggingFace Spaces** using Docker. The frontend (`index.html`) can be served from any static host — Vercel, GitHub Pages, or directly from the browser as a local file.
+The backend is deployed on **HuggingFace Spaces** using Docker. The frontend (`index.html`) can be served from any static host - Vercel, GitHub Pages, or directly from the browser as a local file.
 
 Live demo: [huggingface.co/spaces/LucasLicht/verdict-ai](https://huggingface.co/spaces/LucasLicht/verdict-ai)
 
