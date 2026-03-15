@@ -45,9 +45,13 @@ Verdict (v2)/
 ├── api.py               # FastAPI server — /ask and /ask-voice endpoints
 ├── rag.py               # VerdictRAG class — article lookup + vector search fallback
 ├── prompt.py            # System prompt template for the LLM
-├── index.html           # Frontend — text and voice UI
+├── index.html           # Frontend — clean HTML skeleton
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Container config for HuggingFace Spaces
+│
+├── static/
+│   ├── style.css        # All UI styles
+│   └── app.js           # All frontend JavaScript
 │
 ├── Doc/
 │   └── Ghana Constitution.pdf   # Source document
@@ -65,7 +69,7 @@ Verdict (v2)/
 
 1. Ghana's 1992 Constitution PDF is parsed and split into overlapping chunks
 2. Each chunk is embedded using `all-MiniLM-L6-v2` and stored in a FAISS index
-3. On query, the system first checks if the user is asking about a specific article using regex pattern matching, if so, it retrieves that article's text directly from the cache
+3. On query, the system first checks if the user is asking about a specific article using regex pattern matching — catching variants like "Article 6", "Art. 6", "Art 6", "article number 6", and "section 6" — if matched, all chunks for that article are retrieved directly from the cache
 4. For topic-based queries (e.g. "what does the Constitution say about freedom of speech?"), it falls back to semantic vector search
 5. Retrieved chunks are passed to LLaMA 3.3 70B with a structured prompt that instructs it to cite specific clauses in its response
 
