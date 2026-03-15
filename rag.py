@@ -77,7 +77,7 @@ class VerdictRAG:
         return matched
 
     def ask(self, query: str) -> str:
-        match = re.search(r'article\s+(\d+)', query.lower())
+        match = re.search(r'\b(?:article\s+(?:number\s+)?|art\.?\s+|section\s+)(\d+)\b', query.lower())
 
         if match:
             article_num = match.group(1)
