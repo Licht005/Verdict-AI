@@ -1,4 +1,4 @@
-# Verdict AI — Ghana Constitutional Law Research Assistant
+# Verdict AI -  Ghana Constitutional Law Research Assistant
 
 Verdict AI is an AI-powered legal research tool that lets you query Ghana's 1992 Constitution using natural language - either by typing or speaking. It retrieves exact constitutional provisions, cites specific articles and clauses, and can respond in both text and voice.
 
@@ -14,6 +14,11 @@ Built as a demonstration of retrieval-augmented generation (RAG) applied to a st
 - **Dark, professional UI** — Built for clarity and readability in a legal research context
 
 ---
+![WhatsApp Image 2026-02-23 at 4 12 21 AM](https://github.com/user-attachments/assets/f85fce37-cc56-4b8c-831b-95638cea9d7c)
+
+### Voice component
+<img width="1303" height="431" alt="image" src="https://github.com/user-attachments/assets/59e18777-75e2-4687-8d6b-3296dd8f1548" />
+
 
 ## Tech Stack
 
