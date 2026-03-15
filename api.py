@@ -71,37 +71,45 @@ async def ask_voice(audio: UploadFile = File(...)):
         eleven_api_key = os.getenv("ELEVENLABS_API_KEY")
         voice_id = os.getenv("ELEVENLABS_VOICE_ID", "JBFqnCBsd6RMkjVDRZzb")
 
-        async with httpx.AsyncClient() as client:
-            tts_response = await client.post(
-                f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
-                headers={
-                    "xi-api-key": eleven_api_key,
-                    "Content-Type": "application/json"
-                },
-                json={
-                    "text": answer,
-                    "model_id": "eleven_turbo_v2",
-                    "voice_settings": {
-                        "stability": 0.5,
-                        "similarity_boost": 0.75
-                    }
-                },
-                timeout=30.0
-            )
+        tts_audio_b64 = None
+        tts_fallback = False
 
-        if tts_response.status_code != 200:
-            raise HTTPException(status_code=500, detail="TTS generation failed")
+        try:
+            async with httpx.AsyncClient() as client:
+                tts_response = await client.post(
+                    f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
+                    headers={
+                        "xi-api-key": eleven_api_key,
+                        "Content-Type": "application/json"
+                    },
+                    json={
+                        "text": answer,
+                        "model_id": "eleven_turbo_v2",
+                        "voice_settings": {
+                            "stability": 0.5,
+                            "similarity_boost": 0.75
+                        }
+                    },
+                    timeout=30.0
+                )
+
+            if tts_response.status_code == 200:
+                tts_audio_b64 = base64.b64encode(tts_response.content).decode()
+            else:
+                tts_fallback = True
+        except Exception:
+            tts_fallback = True
 
         # Step 5: Return everything as JSON with base64 encoded audio
-        # This avoids streaming/CORS issues on HuggingFace Spaces
-        audio_b64 = base64.b64encode(tts_response.content).decode()
+        # tts_fallback=True signals the frontend to use browser speechSynthesis
         q_encoded = base64.b64encode(question.encode()).decode()
         a_encoded = base64.b64encode(answer[:800].encode()).decode()
 
         return JSONResponse(content={
-            "audio": audio_b64,
+            "audio": tts_audio_b64,
             "question": q_encoded,
-            "answer": a_encoded
+            "answer": a_encoded,
+            "tts_fallback": tts_fallback
         })
 
     except HTTPException:

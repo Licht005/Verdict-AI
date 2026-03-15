@@ -134,7 +134,7 @@ Live demo: [huggingface.co/spaces/LucasLicht/verdict-ai](https://huggingface.co/
 
 - Voice mode requires microphone permissions in the browser
 - HTTPS is required for microphone access in production (HuggingFace Spaces provides this automatically)
-- The ElevenLabs free tier allows 10,000 characters/month — sufficient for demos and light use
+- The ElevenLabs free tier allows 10,000 characters/month. When the quota is exceeded, voice mode automatically falls back to the browser's built-in speech synthesis — a subtle notification is shown to the user when this occurs
 - The Groq free tier is generous and handles both LLM inference and Whisper transcription
 
 ---

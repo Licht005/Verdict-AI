@@ -115,23 +115,38 @@ async function processVoice() {
     addMsg('voiceMessages', 'user', question);
     addMsg('voiceMessages', 'assistant', answer + (answer.length >= 800 ? '…' : ''));
 
-    // Decode base64 audio and play it
-    const audioBytes = atob(data.audio);
-    const audioArray = new Uint8Array(audioBytes.length);
-    for (let i = 0; i < audioBytes.length; i++) {
-      audioArray[i] = audioBytes.charCodeAt(i);
+    if (data.tts_fallback || !data.audio) {
+      // ElevenLabs unavailable — fall back to browser speechSynthesis
+      showToast('Using browser voice (ElevenLabs quota reached)');
+      setOrb('playing');
+      const utterance = new SpeechSynthesisUtterance(answer);
+      utterance.rate = 0.95;
+      utterance.onend = () => {
+        setOrb('idle');
+        document.getElementById('stopAudioBtn').classList.remove('visible');
+      };
+      document.getElementById('stopAudioBtn').classList.add('visible');
+      currentAudio = { pause: () => speechSynthesis.cancel(), currentTime: 0 };
+      speechSynthesis.speak(utterance);
+    } else {
+      // Decode base64 audio and play it
+      const audioBytes = atob(data.audio);
+      const audioArray = new Uint8Array(audioBytes.length);
+      for (let i = 0; i < audioBytes.length; i++) {
+        audioArray[i] = audioBytes.charCodeAt(i);
+      }
+      const audioBlob = new Blob([audioArray], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(audioBlob);
+      currentAudio = new Audio(url);
+      setOrb('playing');
+      document.getElementById('stopAudioBtn').classList.add('visible');
+      currentAudio.play();
+      currentAudio.onended = () => {
+        setOrb('idle');
+        document.getElementById('stopAudioBtn').classList.remove('visible');
+        URL.revokeObjectURL(url);
+      };
     }
-    const audioBlob = new Blob([audioArray], { type: 'audio/mpeg' });
-    const url = URL.createObjectURL(audioBlob);
-    currentAudio = new Audio(url);
-    setOrb('playing');
-    document.getElementById('stopAudioBtn').classList.add('visible');
-    currentAudio.play();
-    currentAudio.onended = () => {
-      setOrb('idle');
-      document.getElementById('stopAudioBtn').classList.remove('visible');
-      URL.revokeObjectURL(url);
-    };
   } catch (e) {
     setOrb('idle');
     document.getElementById('voiceError').innerHTML =
@@ -217,6 +232,21 @@ function addThinking(containerId) {
   c.appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return el;
+}
+
+function showToast(msg) {
+  const existing = document.getElementById('verdict-toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.id = 'verdict-toast';
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.classList.add('toast-visible'), 10);
+  setTimeout(() => {
+    toast.classList.remove('toast-visible');
+    setTimeout(() => toast.remove(), 400);
+  }, 4000);
 }
 
 function esc(s) {
