@@ -72,11 +72,9 @@ class VerdictRAG:
 
     def _find_article_chunks(self, article_num: str) -> list[Document]:
         pattern = re.compile(rf'(^|\n){re.escape(article_num)}\.\n', re.MULTILINE)
-        # Return first match only (chunk 10 = real Article 6, not transitional provisions)
-        for chunk in self.chunks:
-            if pattern.search(chunk.page_content):
-                return [chunk]
-        return []
+        # Collect all chunks that mention this article (handles multi-chunk articles)
+        matched = [chunk for chunk in self.chunks if pattern.search(chunk.page_content)]
+        return matched
 
     def ask(self, query: str) -> str:
         match = re.search(r'article\s+(\d+)', query.lower())
