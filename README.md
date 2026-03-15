@@ -45,11 +45,11 @@ Verdict (v2)/
 ├── api.py               # FastAPI server — /ask and /ask-voice endpoints
 ├── rag.py               # VerdictRAG class — article lookup + vector search fallback
 ├── prompt.py            # System prompt template for the LLM
-├── index.html           # Frontend — clean HTML skeleton
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Container config for HuggingFace Spaces
 │
 ├── static/
+│   ├── index.html       # Frontend entry point — HTML skeleton
 │   ├── style.css        # All UI styles
 │   └── app.js           # All frontend JavaScript
 │
@@ -116,7 +116,7 @@ ELEVENLABS_VOICE_ID=JBFqnCBsd6RMkjVDRZzb  # optional, defaults to George
 python api.py
 ```
 
-Then open `index.html` in your browser. The app will be available at `http://localhost:7860`.
+Then open `static/index.html` in your browser. The app will be available at `http://localhost:7860`.
 
 > **Note:** On first run, if `faiss_index/` is not present, the system will build the vector index from scratch. This takes 1–2 minutes. Subsequent startups load the cached index and are near-instant.
 
