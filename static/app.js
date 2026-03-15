@@ -11,8 +11,8 @@ function setMode(m) {
   mode = m;
   document.getElementById('textMode').classList.toggle('hidden', m !== 'text');
   document.getElementById('voiceMode').classList.toggle('hidden', m !== 'voice');
-  document.getElementById('textPill').classList.toggle('active', m === 'text');
-  document.getElementById('voicePill').classList.toggle('active', m === 'voice');
+  document.getElementById('textModeBtn').classList.toggle('active', m === 'text');
+  document.getElementById('voiceModeBtn').classList.toggle('active', m === 'voice');
   document.getElementById('modeLabel').textContent =
     m === 'text' ? 'Text mode · Ask any question' : 'Voice mode · Speak your question';
 }
