@@ -45,11 +45,11 @@ Verdict (v2)/
 ├── api.py               # FastAPI server — /ask and /ask-voice endpoints
 ├── rag.py               # VerdictRAG class — article lookup + vector search fallback
 ├── prompt.py            # System prompt template for the LLM
+├── index.html           # Frontend entry point
 ├── requirements.txt     # Python dependencies
 ├── Dockerfile           # Container config for HuggingFace Spaces
 │
 ├── static/
-│   ├── index.html       # Frontend entry point — HTML skeleton
 │   ├── style.css        # All UI styles
 │   └── app.js           # All frontend JavaScript
 │
@@ -116,7 +116,7 @@ ELEVENLABS_VOICE_ID=JBFqnCBsd6RMkjVDRZzb  # optional, defaults to George
 python api.py
 ```
 
-Then open `static/index.html` in your browser. The app will be available at `http://localhost:7860`.
+Then open `index.html` in your browser. The app will be available at `http://localhost:7860`.
 
 > **Note:** On first run, if `faiss_index/` is not present, the system will build the vector index from scratch. This takes 1–2 minutes. Subsequent startups load the cached index and are near-instant.
 
@@ -124,9 +124,11 @@ Then open `static/index.html` in your browser. The app will be available at `htt
 
 ## Deployment
 
-The backend is deployed on **HuggingFace Spaces** using Docker. The frontend (`index.html`) can be served from any static host - Vercel, GitHub Pages, or directly from the browser as a local file.
+The backend is deployed on **HuggingFace Spaces** using Docker. The frontend is hosted on **GitHub Pages**.
 
-Live demo: [huggingface.co/spaces/LucasLicht/verdict-ai](https://huggingface.co/spaces/LucasLicht/verdict-ai)
+- Frontend: [licht005.github.io/Verdict-AI](https://licht005.github.io/Verdict-AI)
+- Backend API: [huggingface.co/spaces/LucasLicht/verdict-ai](https://huggingface.co/spaces/LucasLicht/verdict-ai)
+- Source: [github.com/Licht005/Verdict-AI](https://github.com/Licht005/Verdict-AI)
 
 ---
 
